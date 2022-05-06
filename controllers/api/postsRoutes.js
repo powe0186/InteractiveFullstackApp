@@ -24,6 +24,25 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+//Update existing post by post id
+router.put('/:id', async (req, res) => {
+    try {
+        const postToChange = await Post.findByPk(req.params.id);
+        postToChange.update(
+            {
+                //Change the user_id once login function is working.
+                title: req.body.title,
+                message: req.body.message,
+                user_id: req.body.user_id
+            }
+        )
+        res.status(200).json(postToUpdate);
+    } catch (err) {
+        console.error(err)
+        res.status(400).json(err);
+    }
+});
+
 //Create a new post
 router.post('/', async (req, res) => {
     try {
