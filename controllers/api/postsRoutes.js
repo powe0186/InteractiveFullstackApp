@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { Post } = require('../../models');
 
+//Get ALL posts.
 router.get('/', async (req, res) => {
     try {
         const posts = await Post.findAll();
@@ -12,13 +13,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+//Get post based on its id
+router.get('/:id', async (req, res) => {
+    try {
+        const posts = await Post.findByPk(req.params.id);
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error(err)
+        res.status(400).json(err);
+    }
+});
+
+//Create a new post
 router.post('/', async (req, res) => {
     try {
         const newPost = await Post.create(
             {
+                //Change the user_id once login function is working.
                 title: req.body.title,
                 message: req.body.message,
-                user_id: req.body.user_id //Change this!
+                user_id: req.body.user_id
             }
         );
         res.status(200).json(newPost);
