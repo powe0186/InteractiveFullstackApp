@@ -22,21 +22,23 @@ const loginHandler = async (event) => {
 
 const signUpHandler = async (event) => {
     event.preventDefault();
+    console.log("Creating User......");
 
     const email = document.querySelector('#newEmail').value.trim();
-    const userName = document.querySelector('#newUserName').value.trim();
-    const password = document.querySelector('#newPassword');
+    const user_name = document.querySelector('#newUserName').value.trim();
+    const password = document.querySelector('#newPassword').value.trim();
     const password2 = document.querySelector('#newPassword2').value.trim();
 
     // add some functionality here to make sure that both passwords match.
     
-    if (userName && email && password) {
+    if (user_name && email && password) {
+        console.log(JSON.stringify({ user_name, email, password}));
         const response = await fetch('/api/user/create', {
             method: 'POST',
-            body: JSON.stringify({ userName, email, password}),
+            body: JSON.stringify({ user_name, email, password}),
             headers: { 'Content-Type': 'application/json'},
         });
-
+        
         if (response.ok) {
             //redirect to all messages page.
             document.location.replace('/allMessages');
@@ -48,7 +50,7 @@ const signUpHandler = async (event) => {
 
 
 //Event listener on login button to run login function and redirect to messages.
-document.querySelector('#login-btn').addEventListener('submit', loginHandler);
+document.querySelector('#login-btn').addEventListener('click', loginHandler);
 
 //Event lestener on sign up button to run sign up, login, and redirect to messages.
-document.querySelector('#sign-up-btn').addEventListener('submit', signUpHandler);
+document.querySelector('#sign-up-btn').addEventListener('click', signUpHandler);

@@ -4,7 +4,7 @@ const withAuth = require('../utils/auth');
 
 
 //render login page.
-router.get('/login', async (req, res) => {
+router.get('/', async (req, res) => {
     //If user is already logged in, just go to _____ page.
     if (req.session.logged_in) {
         //Figure out where to go if already loged in.
@@ -16,4 +16,4 @@ router.get('/login', async (req, res) => {
     res.render('login');
 })
 
-modules.exports = router;
+module.exports = router;

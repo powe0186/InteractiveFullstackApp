@@ -1,17 +1,12 @@
 const router = require('express').Router();
 const { User, Post } = require('../../models');
+const bcrypt = require('bcrypt');
 
 
 // Create new user and log in.
 router.post('/create', async (req, res) => {
     try {
-        const userData = await User.create(
-            {
-                user_name: req.body.user_name,
-                email: req.body.email,
-                password: req.body.password
-            }
-        );
+        const userData = await User.create(req.body);
         req.session.save(() => {
             req.session.user_id = userData.id;
             req.session.logged_in = true;
@@ -27,14 +22,16 @@ router.post('/create', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const userData = await User.findOne( { where: { email: req.body.email } } );
-
+        console.log(userData);
         if (!userData) {
+            console.log('Whoops')
             res.status(400).json({message: "No account found matching these credentials."});
             return;
         }
         // built in password validation - returns true or false.
         const validPassword = await userData.checkPassword(req.body.password);
-
+        // console.log(bcrypt.hash(req.body.password, 10));
+        // const validPassword = bcrypt.hash(req.body.password, 10) === userData.password;
         //for wrong password:
         if(!validPassword) {
             res.status(400).json({ message: "Incorrect Password." });
@@ -50,6 +47,7 @@ router.post('/login', async (req, res) => {
         // The miniproject had the res.status inside the req.session.save. Check this later.
         res.status(200).json({ user: userData, message: 'You are now logged in!' });
     } catch (err) {
+        console.error(err);
         res.status(400).json(err);
         return;
     }
