@@ -2,20 +2,20 @@ const loginHandler = async (event) => {
     event.preventDefault();
 
     // get the values from the form.
-    const email = document.querySelector('#login-email').ariaValueMax.trim();
-    const password = document.querySelector('#login-password').valueOf.trim();
-
+    const email = document.querySelector('#login-email').value.trim();
+    const password = document.querySelector('#login-password').value.trim();
+    
     if (email && password) {
         //post request
-        const response = await fetch('/api/user/login', {
+        const response = await fetch('api/user/login', {
             method: 'POST',
-            body: JSON.stringify({ email, password} ),
+            body: JSON.stringify({ email, password}),
             headers: { 'content-Type': 'application/json'}
         });
 
         if (response.ok) {
             // For a successful login, redirect to messages page.
-            document.location.replace('/allMessages')
+            document.location.replace('/')
         }
     }
 };
@@ -32,7 +32,6 @@ const signUpHandler = async (event) => {
     // add some functionality here to make sure that both passwords match.
     
     if (user_name && email && password) {
-        console.log(JSON.stringify({ user_name, email, password}));
         const response = await fetch('/api/user/create', {
             method: 'POST',
             body: JSON.stringify({ user_name, email, password}),
@@ -41,7 +40,7 @@ const signUpHandler = async (event) => {
         
         if (response.ok) {
             //redirect to all messages page.
-            document.location.replace('/allMessages');
+            document.location.replace('/');
         } else {
             alert(response.statusText)
         }

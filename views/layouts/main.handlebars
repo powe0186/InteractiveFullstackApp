@@ -30,10 +30,10 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Posts</a>
+                    <a class="nav-link" href="#">Post</a>
                 </li>
                 <!-- Login or logout route -->
-                <li class="nav-item">
+                {{!-- <li class="nav-item">
                     {{#if logged_in}}
                     <a class="nav-link" id="logout" href="/">Logout</a>
                     {{else}}
@@ -42,10 +42,14 @@
                 </li>
             </ul>
         </div>
-    </nav>
-    <main>
+    </nav> --}}
+    <main class="mx-0">
         {{{ body }}}
     </main>
+
+    {{#if logged_in}}
+    <script src="./js/logout.js"></script>
+    {{/if}}
 </body>
 
 </html>

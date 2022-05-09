@@ -24,14 +24,12 @@ router.post('/login', async (req, res) => {
         const userData = await User.findOne( { where: { email: req.body.email } } );
         console.log(userData);
         if (!userData) {
-            console.log('Whoops')
             res.status(400).json({message: "No account found matching these credentials."});
             return;
         }
         // built in password validation - returns true or false.
         const validPassword = await userData.checkPassword(req.body.password);
-        // console.log(bcrypt.hash(req.body.password, 10));
-        // const validPassword = bcrypt.hash(req.body.password, 10) === userData.password;
+    
         //for wrong password:
         if(!validPassword) {
             res.status(400).json({ message: "Incorrect Password." });
@@ -44,8 +42,11 @@ router.post('/login', async (req, res) => {
             req.session.logged_in = true;
             
         });
+        
         // The miniproject had the res.status inside the req.session.save. Check this later.
-        res.status(200).json({ user: userData, message: 'You are now logged in!' });
+        res.render('homepage', {
+            logged_in: req.session.logged_in
+        });
     } catch (err) {
         console.error(err);
         res.status(400).json(err);
