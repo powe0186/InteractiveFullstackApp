@@ -35,7 +35,7 @@
                 <!-- Login or logout route -->
                 <li class="nav-item">
                     {{#if logged_in}}
-                    <a class="nav-link" href="/profile">Logout</a>
+                    <a class="nav-link" id="logout" href="/">Logout</a>
                     {{else}}
                     <a class="nav-link" href="/login">Login</a>
                     {{/if}}
@@ -47,6 +47,12 @@
         {{{ body }}}
     </main>
 
+    {{!-- Script for logging out, but only if user is logged in. --}}
+    {{#if logged_in}}
+    <script src="/public/js/logout.js"></script>
+    {{else}}
+    <script src="/public/js/login.js"></script>
+    {{/if}}
 </body>
 
 </html>
